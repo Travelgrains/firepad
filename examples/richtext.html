@@ -21,21 +21,39 @@
   <script src="../lib/rich-text-quill-adapter.js"></script>
   <script src="../lib/editor-client.js"></script>
   <script src="../lib/firepad.js"></script>
+
+  <style type="text/css">
+    .flexbox-container {
+      display: flex;
+      padding: 20px;
+      background:#eee;
+    }
+
+    .flexbox-container > pre {
+      width: 50%;
+      padding: 10px;
+      background:#fff;
+    }
+  </style>
 </head>
 
 <body onload="init()">
   <!-- Create the container -->
   <div id="toolbar"></div>
   <div id="editor-container"></div>
+  <div class="flexbox-container">
+    <pre id="delta"></pre>
+    <pre id="document"></pre>
+  </div>
 
   <script>
     function init() {
       //// Initialize Firebase.
       //// TODO: replace with your Firebase project configuration.
       var config = {
-        apiKey: "AIzaSyC_JdByNm-E1CAJUkePsr-YJZl7W77oL3g",
-        authDomain: "firepad-tests.firebaseapp.com",
-        databaseURL: "https://firepad-tests.firebaseio.com"
+        apiKey: "AIzaSyBvasV2WNLiFR6CR_m-_PbIDFEArYDtWpA",
+        authDomain: "tencent-live.firebaseapp.com",
+        databaseURL: "https://tencent-live.firebaseio.com",
       };
       firebase.initializeApp(config);
 
@@ -53,15 +71,23 @@
         [{'font': []}],
         ['clean']                                         // remove formatting button
       ];
-      var editor = new Quill('#editor-container', {
+      var editor = window.quill = new Quill('#editor-container', {
         modules: {
           toolbar: toolbarOptions
         },
         theme: 'snow'  // or 'bubble'
       });
+      editor.on('text-change', function (delta, oldContents, source) {
+        var pre = document.getElementById('document');
+        pre.textContent = '文档:\n' + JSON.stringify(editor.getContents(), null, 2);
+        if (source == 'user') {
+          pre = document.getElementById('delta');
+          pre.textContent = '差量:\n' + JSON.stringify(delta, null, 2);
+        }
+      });
 
       //// Create Firepad.
-      var pad = firepad.Firepad.fromQuill(firepadRef, editor, null);
+      var pad = window.pad = firepad.Firepad.fromQuill(firepadRef, editor, null);
       //// Initialize contents.
       pad.on('ready', function () {
         if (pad.isHistoryEmpty()) {
