@@ -78,10 +78,9 @@
         theme: 'snow'  // or 'bubble'
       });
       editor.on('text-change', function (delta, oldContents, source) {
-        var pre = document.getElementById('document');
-        pre.textContent = '文档:\n' + JSON.stringify(editor.getContents(), null, 2);
-        if (source == 'user') {
-          pre = document.getElementById('delta');
+        printDocument();
+        if (source === 'user') {
+          var pre = document.getElementById('delta');
           pre.textContent = '差量:\n' + JSON.stringify(delta, null, 2);
         }
       });
@@ -90,10 +89,16 @@
       var pad = window.pad = firepad.Firepad.fromQuill(firepadRef, editor, null);
       //// Initialize contents.
       pad.on('ready', function () {
+        printDocument();
         if (pad.isHistoryEmpty()) {
 //          pad.setText('Compose an epic...');
         }
       });
+
+      function printDocument() {
+        var pre = document.getElementById('document');
+        pre.textContent = '文档:\n' + JSON.stringify(editor.getContents(), null, 2);
+      }
     }
 
     // Helper to get hash from end of URL or generate a random one.
