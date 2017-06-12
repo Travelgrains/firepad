@@ -21,6 +21,7 @@
   <script src="../lib/rich-text-quill-adapter.js"></script>
   <script src="../lib/editor-client.js"></script>
   <script src="../lib/firepad.js"></script>
+  <script src="../lib/firebase-channel.js"></script>
 
   <style type="text/css">
     .flexbox-container {
@@ -99,6 +100,8 @@
         var pre = document.getElementById('document');
         pre.textContent = '文档:\n' + JSON.stringify(editor.getContents(), null, 2);
       }
+
+      window.bus = new Bus();
     }
 
     // Helper to get hash from end of URL or generate a random one.
