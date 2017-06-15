@@ -102,6 +102,14 @@
       }
 
       window.bus = new Bus();
+      window.handler = function(messageOrAsyncResult) {
+        if (messageOrAsyncResult.failed) {
+          console.log(JSON.stringify(messageOrAsyncResult, null, 2));
+          return;
+        }
+        window.msg = messageOrAsyncResult.result ? messageOrAsyncResult.result : messageOrAsyncResult;
+        console.log(JSON.stringify(msg, null, 2));
+      };
     }
 
     // Helper to get hash from end of URL or generate a random one.
