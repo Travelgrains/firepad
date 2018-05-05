@@ -39,8 +39,9 @@
     "package.json"
   ],
   "dependencies": {
-    "jsdom": ">3",
-    "firebase": "3.x.x"
+    "deep-equal": "^1.0.1",
+    "firebase": "3.x.x",
+    "jsdom": ">3"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
