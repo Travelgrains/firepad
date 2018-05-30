@@ -40,8 +40,8 @@
   ],
   "dependencies": {
     "deep-equal": "^1.0.1",
-    "firebase": "3.x.x",
-    "jsdom": ">3"
+    "firebase": "^5.0.4",
+    "jsdom": "^11.11.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
